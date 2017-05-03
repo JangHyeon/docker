@@ -1,6 +1,6 @@
 #Dockerfile
 FROM centos:centos6.9
-MAINTAINER lemon <limengabc@163.com>
+MAINTAINER lkjlki<lkjlki@lkjlki.com>
 
 #update yum repository and install openssh server
 RUN yum update -y
@@ -14,10 +14,6 @@ RUN mkdir -p /root/.ssh && chown root.root /root && chmod 700 /root/.ssh
 
 #change root password to 123456
 RUN echo 'root:123456' | chpasswd
-
-#RUN curl https://git.oschina.net/feedao/Docker_shell/raw/start/ali-centos.sh | sh
-#ENV LANG en_US.UTF-8
-#ENV LC_ALL en_US.UTF-8
 
 EXPOSE 22
 CMD /usr/sbin/sshd -D
