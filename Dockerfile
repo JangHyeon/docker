@@ -40,45 +40,6 @@ EXPOSE 22
 # 컨테이너에서 실행될 명령을 지정
 CMD /usr/sbin/sshd -D
 
-##########################################
-################# git ####################
-
-RUN yum install -y git
-
-##########################################
-################# nginx ##################
-
-# yum 저장소 추가
-ADD nginx/nginx.repo /etc/yum.repos.d/nginx.repo
-
-# nginx image-filter 추가
-RUN yum install -y nginx nginx-module-image-filter
-
-# nginx 설정
-RUN sed -i -e "s/user  nginx;/user  $WEB_ID;/g" /etc/nginx/nginx.conf
-RUN echo "daemon off;" >> /etc/nginx/nginx.conf
-
-# nginx 권한 수정
-RUN chown -R $WEB_ID:$WEB_ID /etc/nginx
-RUN chown -R $WEB_ID:$WEB_ID /var/log/nginx
-
-RUN mkdir /home/sessions
-RUN mkdir /home/FILE_LOG
-RUN mkdir /home/UPLOAD_FILE
-RUN mkdir /home/core
-RUN mkdir /home/www
-ADD index.php /home/www/index.php
-
-RUN chown -R $WEB_ID:$WEB_ID /home/*
-
-# 윈도우 기반에선 setting shared drives 설정 필요
-VOLUME ["/home/www", "/home/core", "/home/FILE_LOG", "/home/UPLOAD_FILE", "/etc/nginx"]
-
-EXPOSE 443
-EXPOSE 80
-
-WORKDIR /usr/sbin
-CMD ["nginx"]
 
 
 ##########################################
@@ -97,17 +58,64 @@ RUN echo "cgi.fix_pathinfo = 0" >> /etc/php.ini
 RUN sed -i \
 	-e "s/user = apache/user = $WEB_ID/g" \
 	-e "s/group = apache/group = $WEB_ID/g" \
+
+	-e "s/;catch_workers_output\s*=\s*yes/catch_workers_output = yes/g" \
+	-e "s/;listen.mode = 0660/listen.mode = 0666/g" \
+    -e "s/;listen.owner = nobody/listen.owner = $WEB_ID/g" \
+    -e "s/;listen.group = nobody/listen.group = $WEB_ID/g" \
+#	-e "s/;listen = 127.0.0.1:9000/listen = \/var\/run\/php-fpm\/php-fpm.sock/g" \
 	/etc/php-fpm.d/www.conf
+
+
+##########################################
+################# nginx ##################
+
+# yum 저장소 추가
+COPY nginx/nginx.repo /etc/yum.repos.d/nginx.repo
+
+# nginx image-filter 추가
+RUN yum install -y nginx nginx-module-image-filter
+
+# nginx 경로 생성
+RUN mkdir /home/sessions
+RUN mkdir /home/FILE_LOG
+RUN mkdir /home/UPLOAD_FILE
+RUN mkdir /home/core
+RUN mkdir /home/www
+COPY index.php /home/www/index.php
+
+RUN chown -R $WEB_ID:$WEB_ID /home/*
 
 
 ##########################################
 ######### nginx & php-fpm 연동 ###########
 
-ADD nginx/nginx.conf /etc/nginx/nginx.conf
-RUN mkdir /etc/nginx/vhosts
+RUN rm -f /etc/nginx/nginx.conf
+COPY nginx/nginx.conf /etc/nginx/nginx.conf
+COPY nginx/vhosts /etc/nginx/vhosts
 
-RUN sed -i \
-	-e "s/user apache;/user $WEB_ID;/g" \
-	/etc/nginx/nginx.conf
+# nginx 설정
+RUN sed -i -e "s/user apache;/user $WEB_ID;/g" /etc/nginx/nginx.conf
+RUN echo "daemon off;" >> /etc/nginx/nginx.conf
+
+# nginx 권한 수정
+RUN chown -R $WEB_ID:$WEB_ID /etc/nginx
+RUN chown -R $WEB_ID:$WEB_ID /var/log/nginx
+
+# 윈도우 기반에선 setting shared drives 설정 필요
+VOLUME ["/home/www", "/home/core", "/home/FILE_LOG", "/home/UPLOAD_FILE", "/etc/nginx"]
+
+
+
+EXPOSE 80 443
+
+WORKDIR /usr/sbin
+CMD ["nginx"]
+RUN php-fpm
+
+##########################################
+################# git ####################
+
+#RUN yum install -y git
 
 #End
