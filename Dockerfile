@@ -104,7 +104,7 @@ RUN sed -i \
 ######### nginx & php-fpm 연동 ###########
 
 ADD nginx/nginx.conf /etc/nginx/nginx.conf
-ADD nginx/vhost /etc/nginx/vhost
+ADD nginx/vhosts /etc/nginx/vhosts
 
 RUN sed -i \
 	-e "s/user apache;/user $WEB_ID;/g" \
