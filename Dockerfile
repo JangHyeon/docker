@@ -103,7 +103,7 @@ RUN chown -R $WEB_ID:$WEB_ID /etc/nginx
 RUN chown -R $WEB_ID:$WEB_ID /var/log/nginx
 
 # 윈도우 기반에선 setting shared drives 설정 필요
-VOLUME ["/home/www", "/home/core", "/home/FILE_LOG", "/home/UPLOAD_FILE", "/etc/nginx"]
+VOLUME ["/home/www", "/home/core", "/home/FILE_LOG", "/home/UPLOAD_FILE", "/etc/nginx/vhosts"]
 
 
 
