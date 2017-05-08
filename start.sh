@@ -1,6 +1,5 @@
 #!/bin/bash
 
-cd /usr/sbin
-
-exec php-fpm
-exec nginx
+php-fpm
+nginx
+/usr/sbin/sshd -D

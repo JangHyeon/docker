@@ -37,10 +37,14 @@ RUN echo "$WEB_ID:123456" | chpasswd
 # 가상머신에 오픈할 포트
 EXPOSE 22
 
-# 컨테이너에서 실행될 명령을 지정
-CMD /usr/sbin/sshd -D
 
+##########################################
+################# git ####################
 
+RUN yum install -y git
+#RUN git ls-files -s | awk '/12000/{print $4}'
+
+##########################################
 
 ##########################################
 ################# php ####################
@@ -65,7 +69,6 @@ RUN sed -i \
     -e "s/;listen.group = nobody/listen.group = $WEB_ID/g" \
 #	-e "s/;listen = 127.0.0.1:9000/listen = \/var\/run\/php-fpm\/php-fpm.sock/g" \
 	/etc/php-fpm.d/www.conf
-
 
 ##########################################
 ################# nginx ##################
@@ -96,7 +99,7 @@ COPY nginx/vhosts /etc/nginx/vhosts
 
 # nginx 설정
 RUN sed -i -e "s/user apache;/user $WEB_ID;/g" /etc/nginx/nginx.conf
-RUN echo "daemon off;" >> /etc/nginx/nginx.conf
+#RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
 # nginx 권한 수정
 RUN chown -R $WEB_ID:$WEB_ID /etc/nginx
@@ -106,16 +109,9 @@ RUN chown -R $WEB_ID:$WEB_ID /var/log/nginx
 VOLUME ["/home/www", "/home/core", "/home/FILE_LOG", "/home/UPLOAD_FILE", "/etc/nginx/vhosts"]
 
 
-
 EXPOSE 80 443
 
-WORKDIR /usr/sbin
-CMD ["nginx"]
-RUN php-fpm
-
-##########################################
-################# git ####################
-
-#RUN yum install -y git
+COPY start.sh /
+CMD ["/bin/bash", "/start.sh"]
 
 #End
