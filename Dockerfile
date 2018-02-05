@@ -105,10 +105,15 @@ RUN sed -i -e "s/user apache;/user $WEB_ID;/g" /etc/nginx/nginx.conf
 RUN chown -R $WEB_ID:$WEB_ID /etc/nginx
 RUN chown -R $WEB_ID:$WEB_ID /var/log/nginx
 
+##########################################
+############## 컴포저 설치 ###############
+RUN curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin/
+RUN sudo ln -s /usr/local/bin/composer.phar /usr/local/bin/composer
+
 # 윈도우 기반에선 setting shared drives 설정 필요
 VOLUME ["/home/www", "/home/core", "/home/FILE_LOG", "/home/UPLOAD_FILE", "/etc/nginx/vhosts"]
 
-
+# 포트 설정
 EXPOSE 80 443
 
 COPY start.sh /
