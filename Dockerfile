@@ -54,7 +54,9 @@ RUN yum install -y epel-release
 RUN rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
 RUN rpm -Uvh https://mirror.webtatic.com/yum/el6/latest.rpm
 RUN rpm -Uvh http://repo.mysql.com/mysql-community-release-el6-5.noarch.rpm
-RUN yum --enablerepo=remi-php71 install -y php php-fpm php-gd php-mbstring php-mcrypt php-mysql php-json php-soap php-xml php-xmlrpc php-devel php-pecl-zip
+RUN rpm -Uvh http://mirror.webtatic.com/yum/el6/latest.rpm
+
+RUN yum --enablerepo=webtatic install -y php71w php71w-fpm php71w-gd php71w-mbstring php71w-mcrypt php71w-mysqlnd php71w-json php71w-soap php71w-xml php71w-xmlrpc php71w-devel php71w-pecl-zip php71w-opcache php71w-pdo php71w-imap
 
 RUN echo "date.timezone = Asia/Seoul" >> /etc/php.ini
 RUN echo "cgi.fix_pathinfo = 0" >> /etc/php.ini
