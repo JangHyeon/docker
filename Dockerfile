@@ -51,10 +51,10 @@ RUN yum install -y git
 
 # 저장소 갱신
 RUN yum install -y epel-release
-RUN rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
-RUN rpm -Uvh https://mirror.webtatic.com/yum/el6/latest.rpm
 RUN rpm -Uvh http://repo.mysql.com/mysql-community-release-el6-5.noarch.rpm
-RUN rpm -Uvh http://mirror.webtatic.com/yum/el6/latest.rpm
+RUN rpm -Uvh https://mirror.webtatic.com/yum/el6/latest.rpm
+
+#RUN rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
 
 RUN yum --enablerepo=webtatic install -y php71w php71w-fpm php71w-gd php71w-mbstring php71w-mcrypt php71w-mysqlnd php71w-json php71w-soap php71w-xml php71w-xmlrpc php71w-devel php71w-pecl-zip php71w-opcache php71w-pdo php71w-imap
 
