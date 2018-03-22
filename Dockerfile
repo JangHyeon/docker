@@ -58,7 +58,8 @@ RUN rpm -Uvh https://mirror.webtatic.com/yum/el6/latest.rpm
 
 RUN yum --enablerepo=webtatic install -y php71w php71w-fpm php71w-gd php71w-mbstring php71w-mcrypt php71w-mysqlnd php71w-json php71w-soap php71w-xml php71w-xmlrpc php71w-devel php71w-pecl-zip php71w-opcache php71w-pdo php71w-imap
 
-RUN echo "date.timezone = Asia/Seoul" >> /etc/php.ini
+RUN echo "
+date.timezone = Asia/Seoul" >> /etc/php.ini
 RUN echo "cgi.fix_pathinfo = 0" >> /etc/php.ini
 
 RUN sed -i \
