@@ -87,6 +87,7 @@ RUN mkdir /home/FILE_LOG
 RUN mkdir /home/UPLOAD_FILE
 RUN mkdir /home/core
 RUN mkdir /home/www
+RUN mkdir /home/moolban
 COPY index.php /home/www/index.php
 
 RUN chown -R $WEB_ID:$WEB_ID /home/*
@@ -113,7 +114,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN ln -s /usr/local/bin/composer.phar /usr/local/bin/composer
 
 # 윈도우 기반에선 setting shared drives 설정 필요
-VOLUME ["/home/www", "/home/core", "/home/FILE_LOG", "/home/UPLOAD_FILE", "/etc/nginx/vhosts"]
+VOLUME ["/home/moolban", "/home/www", "/home/core", "/home/FILE_LOG", "/home/UPLOAD_FILE", "/etc/nginx/vhosts"]
 
 # 포트 설정
 EXPOSE 80 443
