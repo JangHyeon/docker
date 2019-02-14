@@ -67,9 +67,9 @@ RUN sed -i \
 
 	-e "s/;catch_workers_output\s*=\s*yes/catch_workers_output = yes/g" \
 	-e "s/;listen.mode = 0660/listen.mode = 0666/g" \
-    -e "s/;listen.owner = nobody/listen.owner = $WEB_ID/g" \
-    -e "s/;listen.group = nobody/listen.group = $WEB_ID/g" \
-#	-e "s/;listen = 127.0.0.1:9000/listen = \/var\/run\/php-fpm\/php-fpm.sock/g" \
+	-e "s/;listen.owner = nobody/listen.owner = $WEB_ID/g" \
+	-e "s/;listen.group = nobody/listen.group = $WEB_ID/g" \
+	-e "s/;listen = 127.0.0.1:9000/listen = \/var\/run\/php-fpm\/php-fpm.sock/g" \
 	/etc/php-fpm.d/www.conf
 
 ##########################################
