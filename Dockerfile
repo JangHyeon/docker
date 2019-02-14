@@ -35,7 +35,7 @@ RUN adduser $WEB_ID
 RUN echo "$WEB_ID:123456" | chpasswd
 
 # 가상머신에 오픈할 포트
-EXPOSE 22
+# EXPOSE 22
 
 
 ##########################################
@@ -113,10 +113,10 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN ln -s /usr/local/bin/composer.phar /usr/local/bin/composer
 
 # 윈도우 기반에선 setting shared drives 설정 필요
-VOLUME ["/home/moolban", "/home/www", "/home/core", "/home/FILE_LOG", "/home/UPLOAD_FILE", "/etc/nginx/vhosts"]
+VOLUME ["/home/moolban", "/home/FILE_LOG", "/home/UPLOAD_FILE", "/etc/nginx/vhosts"]
 
 # 포트 설정
-EXPOSE 80 443
+EXPOSE 80
 
 COPY start.sh /
 CMD ["/bin/bash", "/start.sh"]
