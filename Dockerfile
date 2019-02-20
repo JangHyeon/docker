@@ -116,7 +116,7 @@ RUN ln -s /usr/local/bin/composer.phar /usr/local/bin/composer
 VOLUME ["/home/www", "/home/core", "/home/FILE_LOG", "/home/UPLOAD_FILE", "/etc/nginx/vhosts"]
 
 # 포트 설정
-EXPOSE 80 443
+EXPOSE 80
 
 COPY start.sh /
 CMD ["/bin/bash", "/start.sh"]
