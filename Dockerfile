@@ -35,7 +35,7 @@ RUN adduser $WEB_ID
 RUN echo "$WEB_ID:123456" | chpasswd
 
 # 가상머신에 오픈할 포트
-# EXPOSE 22
+EXPOSE 22
 
 
 ##########################################
@@ -64,11 +64,12 @@ RUN echo -e "\n cgi.fix_pathinfo = 0" >> /etc/php.ini
 RUN sed -i \
 	-e "s/user = apache/user = $WEB_ID/g" \
 	-e "s/group = apache/group = $WEB_ID/g" \
-	-e "s/listen = 127.0.0.1:9000/listen = \/var\/run\/php-fpm\/www\.sock/g" \
+
 	-e "s/;catch_workers_output\s*=\s*yes/catch_workers_output = yes/g" \
 	-e "s/;listen.mode = 0660/listen.mode = 0666/g" \
-	-e "s/;listen.owner = nobody/listen.owner = $WEB_ID/g" \
-	-e "s/;listen.group = nobody/listen.group = $WEB_ID/g" \
+    -e "s/;listen.owner = nobody/listen.owner = $WEB_ID/g" \
+    -e "s/;listen.group = nobody/listen.group = $WEB_ID/g" \
+#	-e "s/;listen = 127.0.0.1:9000/listen = \/var\/run\/php-fpm\/php-fpm.sock/g" \
 	/etc/php-fpm.d/www.conf
 
 ##########################################
@@ -86,7 +87,7 @@ RUN mkdir /home/FILE_LOG
 RUN mkdir /home/UPLOAD_FILE
 RUN mkdir /home/core
 RUN mkdir /home/www
-RUN mkdir /home/moolban
+RUN mkdir /M_STORAGE
 COPY index.php /home/www/index.php
 
 RUN chown -R $WEB_ID:$WEB_ID /home/*
@@ -113,7 +114,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN ln -s /usr/local/bin/composer.phar /usr/local/bin/composer
 
 # 윈도우 기반에선 setting shared drives 설정 필요
-VOLUME ["/home/moolban", "/home/FILE_LOG", "/home/UPLOAD_FILE", "/etc/nginx/vhosts"]
+VOLUME ["/home/www", "/home/core", "/home/FILE_LOG", "/home/UPLOAD_FILE", "/etc/nginx/vhosts", "/M_STORAGE"]
 
 # 포트 설정
 EXPOSE 80
