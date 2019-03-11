@@ -85,8 +85,7 @@ RUN yum install -y nginx nginx-module-image-filter
 RUN mkdir /home/sessions
 RUN mkdir /home/FILE_LOG
 RUN mkdir /home/UPLOAD_FILE
-RUN mkdir /home/core
-RUN mkdir /home/www
+RUN mkdir /home/moolban
 RUN mkdir /M_STORAGE
 COPY index.php /home/www/index.php
 
@@ -114,7 +113,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN ln -s /usr/local/bin/composer.phar /usr/local/bin/composer
 
 # 윈도우 기반에선 setting shared drives 설정 필요
-VOLUME ["/home/www", "/home/core", "/home/FILE_LOG", "/home/UPLOAD_FILE", "/etc/nginx/vhosts", "/M_STORAGE"]
+VOLUME ["/home/moolban", "/home/FILE_LOG", "/home/UPLOAD_FILE", "/etc/nginx/vhosts", "/M_STORAGE"]
 
 # 포트 설정
 EXPOSE 80
