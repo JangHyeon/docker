@@ -81,7 +81,7 @@ COPY nginx/nginx.repo /etc/yum.repos.d/nginx.repo
 # RUN yum install -y nginx nginx-module-image-filter
 
 # pip 설치
-RUN yum install python-pip
+RUN yum install -y python-pip
 RUN pip install awscli --upgrade --user
 RUN mkdir ~/.aws
 
