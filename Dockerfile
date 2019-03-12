@@ -78,7 +78,12 @@ RUN sed -i \
 COPY nginx/nginx.repo /etc/yum.repos.d/nginx.repo
 
 # nginx image-filter 추가
-RUN yum install -y nginx nginx-module-image-filter
+# RUN yum install -y nginx nginx-module-image-filter
+
+# pip 설치
+RUN yum install python-pip
+RUN pip install awscli --upgrade --user
+RUN mkdir ~/.aws
 
 # nginx 경로 생성
 RUN mkdir /home/sessions
@@ -112,7 +117,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN ln -s /usr/local/bin/composer.phar /usr/local/bin/composer
 
 # 윈도우 기반에선 setting shared drives 설정 필요
-VOLUME ["/home/moolban", "/home/FILE_LOG", "/home/UPLOAD_FILE", "/etc/nginx/vhosts", "/M_STORAGE"]
+VOLUME ["/home/moolban", "/home/FILE_LOG", "/home/UPLOAD_FILE", "/etc/nginx/vhosts", "/M_STORAGE", "~/.aws"]
 
 # 포트 설정
 EXPOSE 80
