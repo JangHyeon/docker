@@ -80,24 +80,6 @@ COPY nginx/nginx.repo /etc/yum.repos.d/nginx.repo
 # nginx 설치
 RUN yum install -y nginx
 
-# pip 설치
-RUN yum install zlib-devel -y
-RUN yum install openssl openssl-devel -y
-RUN yum install python-pip -y
-RUN pip install awscli --upgrade --user -q
-RUN mkdir /root/.aws
-
-# nginx 경로 생성
-RUN mkdir /home/sessions
-RUN mkdir /home/FILE_LOG
-RUN mkdir /home/UPLOAD_FILE
-RUN mkdir /home/moolban
-RUN mkdir /M_STORAGE
-COPY index.php /home/www/index.php
-
-RUN chown -R $WEB_ID:$WEB_ID /home/*
-
-
 ##########################################
 ######### nginx & php-fpm 연동 ###########
 
@@ -120,7 +102,15 @@ RUN ln -s /usr/local/bin/composer.phar /usr/local/bin/composer
 
 # 윈도우 기반에선 setting shared drives 설정 필요
 
-VOLUME ["/home/moolban", "/home/FILE_LOG", "/home/UPLOAD_FILE", "/etc/nginx/vhosts", "/M_STORAGE", "/root/.aws"]
+# 외부 경로 생성
+RUN mkdir /home/sessions
+RUN mkdir /home/moolban
+RUN mkdir /M_STORAGE
+RUN mkdir /home/www-data/.aws
+COPY index.php /home/www/index.php
+RUN chown -R $WEB_ID:$WEB_ID /home/*
+
+VOLUME ["/home/moolban", "/etc/nginx/vhosts", "/M_STORAGE", "/home/www-data/.aws"]
 
 # 포트 설정
 EXPOSE 80
