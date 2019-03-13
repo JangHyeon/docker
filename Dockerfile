@@ -77,9 +77,8 @@ RUN sed -i \
 # yum 저장소 추가
 COPY nginx/nginx.repo /etc/yum.repos.d/nginx.repo
 
-# nginx image-filter 추가
-# RUN yum install -y nginx nginx-module-image-filter
-RUN echo 1
+# nginx 설치
+RUN yum install -y nginx
 
 # pip 설치
 RUN yum install python-pip -y
