@@ -81,6 +81,8 @@ COPY nginx/nginx.repo /etc/yum.repos.d/nginx.repo
 RUN yum install -y nginx
 
 # pip 설치
+RUN yum install zlib-devel -y
+RUN yum install openssl openssl-devel -y
 RUN yum install python-pip -y
 RUN pip install awscli --upgrade --user -q
 RUN mkdir /root/.aws
@@ -109,7 +111,6 @@ RUN sed -i -e "s/user apache;/user $WEB_ID;/g" /etc/nginx/nginx.conf
 
 # nginx 권한 수정
 RUN chown -R $WEB_ID:$WEB_ID /etc/nginx
-RUN mkdir /var/log/nginx
 RUN chown -R $WEB_ID:$WEB_ID /var/log/nginx
 
 ##########################################
