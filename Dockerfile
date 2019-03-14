@@ -103,11 +103,12 @@ RUN ln -s /usr/local/bin/composer.phar /usr/local/bin/composer
 # 윈도우 기반에선 setting shared drives 설정 필요
 
 # 외부 경로 생성
-RUN mkdir /home/sessions
-RUN mkdir /home/moolban
 RUN mkdir /M_STORAGE
 RUN mkdir /home/www-data/.aws
-COPY index.php /home/www/index.php
+RUN mkdir /home/sessions
+RUN mkdir /home/UPLOAD_FILE
+RUN mkdir /home/moolban
+COPY index.php /home/moolban/index.php
 RUN chown -R $WEB_ID:$WEB_ID /home/*
 
 VOLUME ["/home/moolban", "/etc/nginx/vhosts", "/M_STORAGE", "/home/www-data/.aws"]
