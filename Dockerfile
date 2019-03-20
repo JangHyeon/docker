@@ -61,6 +61,12 @@ RUN yum --enablerepo=webtatic install -y php71w php71w-fpm php71w-gd php71w-mbst
 RUN echo -e "\n date.timezone = Asia/Seoul" >> /etc/php.ini
 RUN echo -e "\n cgi.fix_pathinfo = 0" >> /etc/php.ini
 
+# 업로드 용량 확장
+RUN sed -i \
+	-e "s/upload_max_filesize = 2M/upload_max_filesize = 2000M" \
+	-e "s/post_max_size = 8M/post_max_size = 2000M" \
+	/etc/php.ini
+
 RUN sed -i \
 	-e "s/user = apache/user = $WEB_ID/g" \
 	-e "s/group = apache/group = $WEB_ID/g" \
