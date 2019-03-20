@@ -63,8 +63,9 @@ RUN echo -e "\n cgi.fix_pathinfo = 0" >> /etc/php.ini
 
 # 업로드 용량 확장
 RUN sed -i \
-	-e "s/upload_max_filesize = 2M/upload_max_filesize = 2000M" \
-	-e "s/post_max_size = 8M/post_max_size = 2000M" \
+	-e "s/upload_max_filesize = 2M/upload_max_filesize = 2000M/g" \
+	-e "s/post_max_size = 8M/post_max_size = 2000M/g" \
+	-e "s/memory_limit = 128M/memory_limit = 2048M/g" \
 	/etc/php.ini
 
 RUN sed -i \
