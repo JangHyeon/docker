@@ -29,7 +29,7 @@ RUN mkdir -p /root/.ssh && chown root.root /root && chmod 700 /root/.ssh
 RUN echo 'root:123456' | chpasswd
 
 # 웹서비스용 계정 추가
-ENV WEB_ID www-data
+ENV WEB_ID ec2-user
 
 RUN adduser $WEB_ID
 RUN echo "$WEB_ID:123456" | chpasswd
@@ -115,14 +115,14 @@ RUN  yum install gifsicle --enablerepo=epel -y
 
 # 외부 경로 생성
 RUN mkdir /M_STORAGE
-RUN mkdir /home/www-data/.aws
+RUN mkdir /home/ec2-user/.aws
 RUN mkdir /home/sessions
 RUN mkdir /home/UPLOAD_FILE
 RUN mkdir /home/moolban
 COPY index.php /home/moolban/index.php
 RUN chown -R $WEB_ID:$WEB_ID /home/*
 
-VOLUME ["/home/moolban", "/etc/nginx/vhosts", "/M_STORAGE", "/home/www-data/.aws"]
+VOLUME ["/home/moolban", "/etc/nginx/vhosts", "/M_STORAGE", "/home/ec2-user/.aws"]
 
 # 포트 설정
 EXPOSE 80
