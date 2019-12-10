@@ -116,13 +116,14 @@ RUN  yum install gifsicle --enablerepo=epel -y
 # 외부 경로 생성
 RUN mkdir /M_STORAGE
 RUN mkdir /home/ec2-user/.aws
+RUN mkdir /home/ec2-user/applications
 RUN mkdir /home/sessions
 RUN mkdir /home/UPLOAD_FILE
 RUN mkdir /home/moolban
 COPY index.php /home/moolban/index.php
 RUN chown -R $WEB_ID:$WEB_ID /home/*
 
-VOLUME ["/home/moolban", "/etc/nginx/vhosts", "/M_STORAGE", "/home/ec2-user/.aws"]
+VOLUME ["/home/moolban", "/etc/nginx/vhosts", "/M_STORAGE", "/home/ec2-user/.aws", "/home/ec2-user/applications"]
 
 # 포트 설정
 EXPOSE 80
